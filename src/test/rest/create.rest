@@ -1,0 +1,77 @@
+# for this to work install rest client extension in vscode
+### Invalid Json body
+@host= localhost:8080
+
+POST http://{{host}}/oauth/access_token HTTP/1.1
+content-type: application/json
+
+{
+  "user_id":123,
+  "client_id": 123,
+  "access_token": "abc123",
+}
+
+### Invalid User ID
+@host= localhost:8080
+
+POST http://{{host}}/oauth/access_token HTTP/1.1
+content-type: application/json
+
+{
+  "user_id": 0,
+  "client_id": 123,
+  "access_token": "abc123",
+  "expires": 22
+}
+
+### Invalid Client ID
+@host= localhost:8080
+
+POST http://{{host}}/oauth/access_token HTTP/1.1
+content-type: application/json
+
+{
+  "user_id": 1,
+  "client_id": 0,
+  "access_token": "abc123",
+  "expires": 22
+}
+
+### Invalid exipre time
+@host= localhost:8080
+
+POST http://{{host}}/oauth/access_token HTTP/1.1
+content-type: application/json
+
+{
+  "user_id": 1,
+  "client_id": 12,
+  "access_token": "abc123",
+  "expires": 0
+}
+
+### Invalid access token id
+@host= localhost:8080
+
+POST http://{{host}}/oauth/access_token HTTP/1.1
+content-type: application/json
+
+{
+  "user_id": 1,
+  "client_id": 12,
+  "access_token": "",
+  "expires": 0
+}
+
+### Valid
+@host= localhost:8080
+
+POST http://{{host}}/oauth/access_token HTTP/1.1
+content-type: application/json
+
+{
+  "user_id": 1,
+  "client_id": 12,
+  "access_token": "abc123",
+  "expires": 22
+}

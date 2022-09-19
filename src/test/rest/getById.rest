@@ -1,0 +1,8 @@
+# for this to work install rest client extension in vscode
+### Token not found
+@host= localhost:8080
+GET http://{{host}}/oauth/access_token/test1
+
+### Token found
+@host= localhost:8080
+GET http://{{host}}/oauth/access_token/abc123

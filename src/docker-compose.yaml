@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  cassandra:
+    container_name: cassandra4
+    image: cassandra:4.0
+    ports:
+      - 9042:9042
+    volumes:
+      - ~/db_data/cassandra:/var/lib/cassandra
+      - ./cass_schema.cql:/schema.cql
+    restart: always
+    healthcheck:
+      test: ["CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+    environment:
+      - CASSANDRA_CLUSTER_NAME=bookstore
+      - "MAX_HEAP_SIZE=256M"
+      - "HEAP_NEWSIZE=128M"
+  mysql:
+    container_name: mysql8
+    image: mysql:8
+    ports:
+      - 3306:3306
+    volumes:
+      - ~/db_data/mysql:/var/lib/mysql
+      - ./mysql_schema.sql:/schema.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=S3cr3t
+      - MYSQL_PASSWORD=An0th3rs3cr3t
+      - MYSQL_USER=dbuser
+      - MYSQL_DATABASE=users_db
+
+# After this
+# For cass
+  # sudo docker compose exec cassandra /bin/bash
+  # cqlsh cassandra -f /schema.cql
+  # login to cqlsh
+  # desc keyspaces;
+  # desc keyspace oauth;
+  # Use `localhost` and default port (9042) to connect from your app.
+# For Mysql
+#   sudo snap install mysql-workbench-community
+#   sudo snap connect mysql-workbench-community:password-manager-service :password-manager-service
